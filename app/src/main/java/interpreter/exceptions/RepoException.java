@@ -1,6 +1,7 @@
 package interpreter.exceptions;
 
-public class RepoException extends MyException {
+@Deprecated
+public class RepoException extends RepositoryException {
     public RepoException(String message) {
         super(message);
     }

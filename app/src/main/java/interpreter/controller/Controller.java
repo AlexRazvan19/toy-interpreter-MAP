@@ -31,21 +31,17 @@ public class Controller {
         return currentStatement.execute(state);
     }
 
-    public void allStep() throws MyException {
-        PrgState program = repo.getCrtPrg();
-
-        if (displayFlag) {
-            display(program);
+   public void allStep() throws MyException {
+        PrgState prg = repo.getCrtPrg();
+        repo.logPrgStateExec();
+        display(prg);
+        
+        while (!prg.getExeStack().isEmpty()) {
+            oneStep(prg);
+            repo.logPrgStateExec();
+            display(prg);
         }
-
-        while (!program.getExeStack().isEmpty()) {
-            oneStep(program);
-
-            if (displayFlag) {
-                display(program);
-            }
-        }
-    }
+    } 
 
     private void display(PrgState program) {
         System.out.println(program);

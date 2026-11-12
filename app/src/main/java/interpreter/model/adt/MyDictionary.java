@@ -36,6 +36,19 @@ public class MyDictionary<K, V> implements IDictionary<K, V> {
         dictionary.put(key, value);
     }
 
+    @Override 
+    public void remove(K key) throws ADTException {
+        if (!dictionary.containsKey(key)){
+            throw new ADTException("key does not exist: " + key);
+        }
+        dictionary.remove(key);
+    }
+    
+    @Override
+    public Map<K, V> toMap() {
+        return new HashMap<>(dictionary);
+    }
+
     @Override
     public String toString() {
         return dictionary.toString();

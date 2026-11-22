@@ -5,8 +5,7 @@ import interpreter.exceptions.StatementException;
 import interpreter.model.PrgState;
 import interpreter.model.stmt.IStmt;
 import interpreter.repository.IRepository;
-import interpreter.model.adt.MyStack;
-import interpreter.controller.GarbageCollector;
+
 
 public class Controller {
     private final IRepository repo;

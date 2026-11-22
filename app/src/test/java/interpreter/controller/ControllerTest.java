@@ -3,6 +3,7 @@ package interpreter.controller;
 import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
 import interpreter.model.adt.MyDictionary;
+import interpreter.model.adt.MyHeap;
 import interpreter.model.adt.MyList;
 import interpreter.model.adt.MyStack;
 import interpreter.model.stmt.IStmt;
@@ -28,7 +29,8 @@ class ControllerTest {
                 new MyDictionary<>(),
                 new MyList<>(),
                 program,
-                new MyDictionary<>()
+                new MyDictionary<>(),
+                new MyHeap()
         );
         var repo = new Repository(state, dir.resolve("log.txt").toString());
         new Controller(repo, false).allStep();

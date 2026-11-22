@@ -2,6 +2,7 @@ package interpreter.model.value;
 
 import interpreter.model.PrgState;
 import interpreter.model.adt.MyDictionary;
+import interpreter.model.adt.MyHeap;
 import interpreter.model.adt.MyList;
 import interpreter.model.adt.MyStack;
 import interpreter.model.stmt.NopStmt;
@@ -19,7 +20,8 @@ class StringValueTest {
                 new MyDictionary<>(),
                 new MyList<>(),
                 new NopStmt(),
-                new MyDictionary<>()
+                new MyDictionary<>(),
+                new MyHeap()
         );
 
         new VarDeclStmt("text", new StringType()).execute(state);

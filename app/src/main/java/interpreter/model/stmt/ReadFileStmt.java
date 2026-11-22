@@ -29,7 +29,7 @@ public record ReadFileStmt(IExp exp, String varName) implements IStmt {
             );
         }
 
-        if (!(exp.eval(symTable) instanceof StringValue fileName)) {
+        if (!(exp.eval(symTable, state.getHeap()) instanceof StringValue fileName)) {
             throw new StatementException(
                     "readFile: " + exp + " is not a string"
             );

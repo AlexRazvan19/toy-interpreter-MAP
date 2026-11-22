@@ -4,6 +4,7 @@ import interpreter.exceptions.ExpressionException;
 import interpreter.exceptions.MyException;
 import interpreter.model.adt.IDictionary;
 import interpreter.model.adt.MyDictionary;
+import interpreter.model.adt.MyHeap;
 import interpreter.model.value.BoolValue;
 import interpreter.model.value.IValue;
 import interpreter.model.value.IntValue;
@@ -23,29 +24,29 @@ class RelationalExpTest {
     @Test
     void evaluatesAllRelationalOperatorsToTrueAndFalse() throws MyException {
         assertEquals(new BoolValue(true),
-                new RelationalExp(RelOp.LT, number(1), number(2)).eval(symTable));
+                new RelationalExp(RelOp.LT, number(1), number(2)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(false),
-                new RelationalExp(RelOp.LT, number(2), number(1)).eval(symTable));
+                new RelationalExp(RelOp.LT, number(2), number(1)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(true),
-                new RelationalExp(RelOp.LE, number(1), number(1)).eval(symTable));
+                new RelationalExp(RelOp.LE, number(1), number(1)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(false),
-                new RelationalExp(RelOp.LE, number(2), number(1)).eval(symTable));
+                new RelationalExp(RelOp.LE, number(2), number(1)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(true),
-                new RelationalExp(RelOp.EQ, number(1), number(1)).eval(symTable));
+                new RelationalExp(RelOp.EQ, number(1), number(1)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(false),
-                new RelationalExp(RelOp.EQ, number(1), number(2)).eval(symTable));
+                new RelationalExp(RelOp.EQ, number(1), number(2)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(true),
-                new RelationalExp(RelOp.NE, number(1), number(2)).eval(symTable));
+                new RelationalExp(RelOp.NE, number(1), number(2)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(false),
-                new RelationalExp(RelOp.NE, number(1), number(1)).eval(symTable));
+                new RelationalExp(RelOp.NE, number(1), number(1)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(true),
-                new RelationalExp(RelOp.GT, number(2), number(1)).eval(symTable));
+                new RelationalExp(RelOp.GT, number(2), number(1)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(false),
-                new RelationalExp(RelOp.GT, number(1), number(2)).eval(symTable));
+                new RelationalExp(RelOp.GT, number(1), number(2)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(true),
-                new RelationalExp(RelOp.GE, number(1), number(1)).eval(symTable));
+                new RelationalExp(RelOp.GE, number(1), number(1)).eval(symTable, new MyHeap()));
         assertEquals(new BoolValue(false),
-                new RelationalExp(RelOp.GE, number(1), number(2)).eval(symTable));
+                new RelationalExp(RelOp.GE, number(1), number(2)).eval(symTable, new MyHeap()));
     }
 
     @Test
@@ -56,7 +57,7 @@ class RelationalExpTest {
                         RelOp.LT,
                         new ValueExp(new IntValue(1)),
                         new ValueExp(new BoolValue(true))
-                ).eval(symTable)
+                ).eval(symTable, new MyHeap())
         );
     }
 }

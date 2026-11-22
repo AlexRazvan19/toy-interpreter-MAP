@@ -4,6 +4,7 @@ import interpreter.exceptions.ExpressionException;
 import interpreter.exceptions.MyException;
 import interpreter.model.adt.IDictionary;
 import interpreter.model.adt.MyDictionary;
+import interpreter.model.adt.MyHeap;
 import interpreter.model.value.BoolValue;
 import interpreter.model.value.IValue;
 import interpreter.model.value.IntValue;
@@ -23,7 +24,7 @@ class LogicExpTest {
                         LogicOp.AND,
                         new ValueExp(new BoolValue(true)),
                         new ValueExp(new BoolValue(false))
-                ).eval(symTable)
+                ).eval(symTable, new MyHeap())
         );
         assertEquals(
                 new BoolValue(true),
@@ -31,7 +32,7 @@ class LogicExpTest {
                         LogicOp.OR,
                         new ValueExp(new BoolValue(true)),
                         new ValueExp(new BoolValue(false))
-                ).eval(symTable)
+                ).eval(symTable, new MyHeap())
         );
     }
 
@@ -43,13 +44,13 @@ class LogicExpTest {
                 new ValueExp(new BoolValue(true))
         );
 
-        assertThrows(ExpressionException.class, () -> expression.eval(symTable));
+        assertThrows(ExpressionException.class, () -> expression.eval(symTable, new MyHeap()));
     }
 
     @Test
     void undefinedVariableThrows() {
         IExp expression = new VarExp("missing");
 
-        assertThrows(ExpressionException.class, () -> expression.eval(symTable));
+        assertThrows(ExpressionException.class, () -> expression.eval(symTable, new MyHeap()));
     }
 }

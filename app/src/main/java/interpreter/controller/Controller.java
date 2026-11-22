@@ -6,6 +6,7 @@ import interpreter.model.PrgState;
 import interpreter.model.stmt.IStmt;
 import interpreter.repository.IRepository;
 import interpreter.model.adt.MyStack;
+import interpreter.controller.GarbageCollector;
 
 public class Controller {
     private final IRepository repo;
@@ -34,14 +35,16 @@ public class Controller {
    public void allStep() throws MyException {
         PrgState prg = repo.getCrtPrg();
         repo.logPrgStateExec();
-        display(prg);
-        
         while (!prg.getExeStack().isEmpty()) {
             oneStep(prg);
             repo.logPrgStateExec();
+            prg.getHeap().setContent(GarbageCollector.safeGarbageCollector(
+                GarbageCollector.getAddrFromSymTable(prg.getSymTable().toMap().values()),
+                    prg.getHeap().getContent()));
+            repo.logPrgStateExec();
             display(prg);
         }
-    } 
+    }
 
     private void display(PrgState program) {
         System.out.println(program);

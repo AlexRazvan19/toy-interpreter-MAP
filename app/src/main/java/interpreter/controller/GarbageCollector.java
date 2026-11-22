@@ -6,6 +6,9 @@ import java.util.Collection;
 import interpreter.model.value.RefValue;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+
 
 public final class GarbageCollector {
     private GarbageCollector() {}
@@ -19,5 +22,38 @@ public final class GarbageCollector {
         Map<Integer, IValue> heap) {
             return heap.entrySet().stream().filter(e -> symTableAddr.contains(e.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public static Set<Integer> reachableAddresses(
+            Set<Integer> roots,
+            Map<Integer, IValue> heap) {
+        Set<Integer> reachable = new HashSet<>(roots);
+        var worklist = new ArrayDeque<>(roots);
+
+        while (!worklist.isEmpty()) {
+            Integer address = worklist.remove();
+            IValue value = heap.get(address);
+
+            if (value instanceof RefValue ref
+                    && reachable.add(ref.address())) {
+                worklist.add(ref.address());
+            }
+        }
+
+        return reachable;
+    }
+
+    public static Map<Integer, IValue> safeGarbageCollector(
+            Set<Integer> symTableAddr,
+            Map<Integer, IValue> heap) {
+        Set<Integer> reachable =
+                reachableAddresses(symTableAddr, heap);
+
+        return heap.entrySet().stream()
+                .filter(entry -> reachable.contains(entry.getKey()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
     }
 }

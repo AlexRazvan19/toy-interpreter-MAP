@@ -1,0 +1,57 @@
+package interpreter.model.adt;
+
+import java.util.HashMap;
+import java.util.Map;
+import interpreter.exceptions.ADTException;
+import interpreter.model.value.IValue;
+
+
+public class MyHeap implements IHeap {
+    private Map<Integer, IValue> heap = new HashMap<>();
+    private int nextFree = 1; // address 0 means null
+    @Override
+    public int allocate(IValue value) {
+        int address = nextFree++;
+        heap.put(address, value);
+        return address;
+    }
+
+    @Override 
+    public void setContent(Map<Integer, IValue> content) {
+        heap = new HashMap<>(content);
+    }
+
+ // TODO: get and update (a missing address -> ADTException), isDefined,
+ // getContent (Map.copyOf(heap)), toString
+
+    @Override
+    public IValue get(int address) throws ADTException {
+        if (!heap.containsKey(address)) {
+            throw new ADTException("Address " + address + " is not defined in the heap.");
+        }
+        return heap.get(address);
+    }
+
+    @Override
+    public void update(int address, IValue value) throws ADTException {
+        if (!heap.containsKey(address)) {
+            throw new ADTException("Address " + address + " is not defined in the heap.");
+        }
+        heap.put(address, value);
+    }
+
+    @Override
+    public boolean isDefined(int address) {
+        return heap.containsKey(address);
+    }
+
+    @Override
+    public Map<Integer, IValue> getContent() {
+        return Map.copyOf(heap);
+    }
+
+    @Override
+    public String toString() {
+        return heap.toString();
+    }
+}

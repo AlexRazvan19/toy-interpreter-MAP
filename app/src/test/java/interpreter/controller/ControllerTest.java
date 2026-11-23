@@ -8,6 +8,9 @@ import interpreter.model.adt.MyList;
 import interpreter.model.adt.MyStack;
 import interpreter.model.stmt.IStmt;
 import interpreter.model.value.IntValue;
+import interpreter.model.type.IntType;
+import interpreter.model.type.RefType;
+import interpreter.model.value.RefValue;
 import interpreter.repository.Repository;
 import interpreter.view.Examples;
 import org.junit.jupiter.api.Test;
@@ -66,6 +69,51 @@ class ControllerTest {
         PrgState state = run(Examples.EX5);
 
         assertEquals(new IntValue(5), state.getOut().get(0));
+    }
+
+    @Test
+    void ex6PrintsTheReferenceValues() throws MyException {
+        PrgState state = run(Examples.EX6);
+
+        assertEquals(new RefValue(1, new IntType()), state.getOut().get(0));
+        assertEquals(
+                new RefValue(2, new RefType(new IntType())),
+                state.getOut().get(1)
+        );
+    }
+
+    @Test
+    void ex7PrintsTwentyAndTwentyFive() throws MyException {
+        PrgState state = run(Examples.EX7);
+
+        assertEquals(new IntValue(20), state.getOut().get(0));
+        assertEquals(new IntValue(25), state.getOut().get(1));
+    }
+
+    @Test
+    void ex8PrintsTwentyAndThirtyFive() throws MyException {
+        PrgState state = run(Examples.EX8);
+
+        assertEquals(new IntValue(20), state.getOut().get(0));
+        assertEquals(new IntValue(35), state.getOut().get(1));
+    }
+
+    @Test
+    void ex9PrintsTwentyWithSafeGarbageCollection() throws MyException {
+        PrgState state = run(Examples.EX9);
+
+        assertEquals(new IntValue(20), state.getOut().get(0));
+    }
+
+    @Test
+    void ex10PrintsFourThroughZero() throws MyException {
+        PrgState state = run(Examples.EX10);
+
+        assertEquals(new IntValue(4), state.getOut().get(0));
+        assertEquals(new IntValue(3), state.getOut().get(1));
+        assertEquals(new IntValue(2), state.getOut().get(2));
+        assertEquals(new IntValue(1), state.getOut().get(3));
+        assertEquals(new IntValue(0), state.getOut().get(4));
     }
 
     @Test

@@ -1,7 +1,10 @@
 package interpreter.model.adt;
 
 import interpreter.exceptions.ADTException;
+import interpreter.model.type.IntType;
+import interpreter.model.type.RefType;
 import interpreter.model.value.IntValue;
+import interpreter.model.value.RefValue;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,6 +13,38 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AdtTest {
+    @Test
+    void refTypeUsesAZeroAddressAsTheDefaultValue() {
+        RefType type = new RefType(new IntType());
+
+        assertEquals(new RefValue(0, new IntType()), type.defaultValue());
+        assertEquals(type, new RefType(new IntType()));
+        assertEquals(new RefType(new RefType(new IntType())),
+                new RefType(new RefType(new IntType())));
+        assertFalse(type.equals(new RefType(new RefType(new IntType()))));
+    }
+
+    @Test
+    void heapAllocatesSequentialAddressesAndSupportsGetAndUpdate() throws ADTException {
+        IHeap heap = new MyHeap();
+
+        assertEquals(1, heap.allocate(new IntValue(20)));
+        assertEquals(2, heap.allocate(new IntValue(30)));
+        assertEquals(new IntValue(20), heap.get(1));
+        assertEquals(new IntValue(30), heap.get(2));
+
+        heap.update(1, new IntValue(25));
+        assertEquals(new IntValue(25), heap.get(1));
+    }
+
+    @Test
+    void missingHeapAddressThrowsForGetAndUpdateAndIsNotDefined() {
+        IHeap heap = new MyHeap();
+
+        assertFalse(heap.isDefined(1));
+        assertThrows(ADTException.class, () -> heap.get(1));
+        assertThrows(ADTException.class, () -> heap.update(1, new IntValue(1)));
+    }
     @Test
     void stackIsLifo() throws ADTException {
         IStack<Integer> stack = new MyStack<>();

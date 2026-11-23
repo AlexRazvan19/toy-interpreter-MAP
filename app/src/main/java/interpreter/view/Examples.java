@@ -148,6 +148,8 @@ public class Examples {
         )
 );
 
+    // Ex6: Ref int v; new(v, 20); Ref Ref int a; new(a, v);
+    // print(v); print(a)
     public static final IStmt EX6 = new CompStmt(
         new VarDeclStmt("v", new RefType(new IntType())),
         new CompStmt(
@@ -165,6 +167,8 @@ public class Examples {
         )
 );
 
+    // Ex7: Ref int v; new(v, 20); Ref Ref int a; new(a, v);
+    // print(rH(v)); print(rH(rH(a)) + 5)
     public static final IStmt EX7 = new CompStmt(
         new VarDeclStmt("v", new RefType(new IntType())),
         new CompStmt(
@@ -188,6 +192,8 @@ public class Examples {
         )
 );
 
+    // Ex8: Ref int v; new(v, 20); print(rH(v)); wH(v, 30);
+    // print(rH(v) + 5)
     public static final IStmt EX8 = new CompStmt(
         new VarDeclStmt("v", new RefType(new IntType())),
         new CompStmt(
@@ -206,7 +212,9 @@ public class Examples {
         )
 );
 
-     public static final IStmt EX9 = new CompStmt(
+    // Ex9: Ref int v; new(v, 20); Ref Ref int a; new(a, v);
+    // new(v, 30); print(rH(rH(a)))
+    public static final IStmt EX9 = new CompStmt(
         new VarDeclStmt("v", new RefType(new IntType())),
         new CompStmt(
                 new NewStmt("v", new ValueExp(new IntValue(20))),
@@ -227,6 +235,8 @@ public class Examples {
         )
 );
 
+    // Ex10: int v; v = 4;
+    // (while v > 0) { print(v); v = v - 1 }; print(v)
     public static final IStmt EX10 =
             new CompStmt(
                     new VarDeclStmt("v", new IntType()),
